@@ -186,7 +186,7 @@ class InsightsMCPServer(FastMCP):  # pylint: disable=too-many-instance-attribute
 
             mcp.remove_non_readonly_tools(readonly=readonly)
 
-            self.mount(mcp, prefix=f"{mcp.toolset_name}_")
+            self.mount(mcp, namespace=f"{mcp.toolset_name}_")
 
 
 def _get_tool_description(tool: Any) -> str:

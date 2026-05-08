@@ -8,6 +8,7 @@ Insights-specific MCP tools and resources.
 import asyncio
 
 from fastmcp import FastMCP
+from fastmcp.exceptions import NotFoundError
 from fastmcp.server.auth import AuthProvider
 
 from insights_mcp.client import InsightsClient
@@ -134,4 +135,7 @@ class InsightsMCP(FastMCP):
         ]
 
         for tool_name in tools_to_remove:
-            self.remove_tool(tool_name)
+            try:
+                self.local_provider.remove_tool(tool_name)
+            except KeyError as exc:
+                raise NotFoundError(f"Tool {tool_name!r} not found") from exc
