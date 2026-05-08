@@ -12,6 +12,7 @@ autopep
 backend
 baseos
 bool
+booleans
 Claude
 CLI
 codebase
@@ -58,6 +59,7 @@ Lightspeed
 LLM
 LLM's
 Makefile
+mcp
 MCP
 MCPS
 md
@@ -86,6 +88,7 @@ Pytest
 rbac
 RBAC
 README
+recurse
 remediations
 repo
 requester's
