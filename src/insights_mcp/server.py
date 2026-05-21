@@ -22,6 +22,7 @@ from insights_mcp import __version__, config
 from insights_mcp.client import build_mounted_tool_names
 from insights_mcp.mcp import InsightsMCP
 from insights_mcp.oauth import create_oauth_provider
+from insights_mcp.tool_description import mcp_tool_title_from_docstring
 from inventory_mcp.server import mcp as InventoryMCP
 from planning_mcp.server import mcp as PlanningMCP
 from rbac_mcp.server import mcp as RbacMCP
@@ -653,11 +654,12 @@ def main():  # pylint: disable=too-many-statements,too-many-locals
 
     mcp_server.register_mcps(toolset_list, readonly=args.readonly)
 
-    # Register the version checking tool
+    version_doc = (get_mcp_version.__doc__ or "").format(container_brand_long=container_brand_long).strip()
     mcp_server.tool(
         get_mcp_version,
         annotations=ToolAnnotations(readOnlyHint=True, openWorldHint=False),
-        description=get_mcp_version.__doc__.format(container_brand_long=container_brand_long),
+        description=version_doc,
+        title=mcp_tool_title_from_docstring(version_doc),
     )
 
     # Iterate over all MCPs and their tools to format any descriptions and titles
