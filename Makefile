@@ -201,8 +201,13 @@ run-oauth: build ## Run the MCP server with OAuth transport
 
 ALL_PYTHON_FILES := $(shell find src -name "*.py")
 
-.PHONY: generate-docs
-generate-docs: usage.md toolsets.md docs/architecture-structure.svg docs/architecture-deployment.svg ## Generate documentation from the MCP server
+.PHONY: generate-docs tool-tokens-md
+generate-docs: usage.md toolsets.md docs/tool-tokens.md docs/architecture-structure.svg docs/architecture-deployment.svg ## Generate documentation from the MCP server
+
+tool-tokens-md: docs/tool-tokens.md ## Generate MCP tool input token table
+
+docs/tool-tokens.md: $(ALL_PYTHON_FILES) scripts/dump_tool_tokens.py
+	uv run python scripts/dump_tool_tokens.py -o $@
 
 usage.md: $(ALL_PYTHON_FILES) Makefile
 	uv tool install -e .
