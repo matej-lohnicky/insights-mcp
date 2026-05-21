@@ -19,6 +19,7 @@ from advisor_mcp.server import mcp_server as AdvisorMCP
 from content_sources_mcp.server import mcp as ContentSourcesMCP
 from image_builder_mcp.server import mcp_server as ImageBuilderMCP
 from insights_mcp import __version__, config
+from insights_mcp.client import build_mounted_tool_names
 from insights_mcp.mcp import InsightsMCP
 from insights_mcp.oauth import create_oauth_provider
 from inventory_mcp.server import mcp as InventoryMCP
@@ -163,6 +164,7 @@ class InsightsMCPServer(FastMCP):  # pylint: disable=too-many-instance-attribute
             allowed_mcps: List of MCP server names to register and mount
             readonly: If True, only register read-only tools
         """
+        mounted_tool_names = build_mounted_tool_names(allowed_mcps)
         for mcp in MCPS:
             if mcp.toolset_name not in allowed_mcps:
                 continue
@@ -178,6 +180,7 @@ class InsightsMCPServer(FastMCP):  # pylint: disable=too-many-instance-attribute
                 oauth_provider=self.auth,
                 mcp_transport=self.mcp_transport,
                 token_endpoint=self.token_endpoint,
+                mounted_tool_names=mounted_tool_names,
             )
             try:
                 mcp.register_tools()

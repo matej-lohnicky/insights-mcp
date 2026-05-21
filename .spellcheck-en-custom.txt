@@ -25,6 +25,7 @@ DeepEval
 deprecations
 Deprecations
 Dev
+direnv
 EPEL
 FastMCP's
 gzip
